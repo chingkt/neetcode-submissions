@@ -1,0 +1,38 @@
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        def isAnagram(s: str, t: str) -> bool:
+            countS = {}
+            countT = {}
+            for char in s:
+                if char in countS:
+                    countS[char] += 1
+                else:
+                    countS[char] = 1
+            
+            for char in t:
+                if char in countT:
+                    countT[char] += 1
+                else:
+                    countT[char] = 1
+            
+            for char in countS:
+                if countS.get(char) != countT.get(char):
+                    return False
+            for char in countT:
+                if countS.get(char) != countT.get(char):
+                    return False
+            
+            return True
+        allGroups = []
+        for s in strs:
+            appended = False
+            for group in allGroups:
+                if isAnagram(group[0], s):
+                    group.append(s)
+                    appended = True
+                    break
+            if appended == False:
+                allGroups.append([s])
+        
+        return allGroups
+
